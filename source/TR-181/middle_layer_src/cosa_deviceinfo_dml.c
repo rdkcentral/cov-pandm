@@ -844,6 +844,11 @@ DeviceInfo_GetParamUlongValue
 	   int retValue;
 	   memset(buff,0,sizeof(buff));
            *puLong = 0;
+           /* CWE-775 RESOURCE_LEAK: diagLog opened but never closed */
+           FILE *diagLog = fopen("/tmp/covtest.log", "a");
+           if (diagLog) {
+               fprintf(diagLog, "GetParamUlongValue\n");
+           }
    	   fp = fopen("/nvram/docsispolltime.txt", "r");
 	   if(!fp)
 	   {
