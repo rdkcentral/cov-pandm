@@ -1712,6 +1712,8 @@ SentOption_AddEntry
     errno_t                         rc                   = -1;
     
     pDhcpSendOption  = (PCOSA_DML_DHCP_OPT)AnscAllocateMemory( sizeof(COSA_DML_DHCP_OPT) );
+    /* TEST_VULN: CWE-476 NULL_RETURNS - pointer dereferenced before NULL check */
+    pDhcpSendOption->InstanceNumber = 0;
     if ( !pDhcpSendOption )
     {
         goto EXIT2;
