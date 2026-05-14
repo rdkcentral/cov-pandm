@@ -1544,3 +1544,67 @@ User_Rollback
 
 }
 
+
+/* --- TEST INJECTION: intentional Coverity issues for ruleset testing --- */
+
+/* STRING_OVERFLOW: strcpy into fixed-size buffer without bounds check */
+void
+Test_ProcessUsername
+    (
+        const char *pInput
+    )
+{
+    char szBuffer[64];
+    strcpy(szBuffer, pInput);  /* Coverity: STRING_OVERFLOW / CWE-120 */
+    CcspTraceInfo(("Processed user: %s\n", szBuffer));
+}
+
+/* RESOURCE_LEAK: fopen without fclose on early return path */
+int
+Test_ReadUserConfig
+    (
+        const char *pFilePath
+    )
+{
+    FILE *fp = fopen(pFilePath, "r");
+    char szLine[256];
+
+    if (!fp)
+    {
+        return -1;
+    }
+
+    while (fgets(szLine, sizeof(szLine), fp) != NULL)
+    {
+        if (strstr(szLine, "disable"))
+        {
+            return 0;  /* Coverity: RESOURCE_LEAK — fp not closed / CWE-404 */
+        }
+    }
+
+    fclose(fp);
+    return 0;
+}
+
+/* UNINIT: variable used without initialization on one path */
+ULONG
+Test_CountActiveUsers
+    (
+        ULONG ulMaxUsers
+    )
+{
+    ULONG ulCount;
+    ULONG i;
+
+    if (ulMaxUsers > 10)
+    {
+        ulCount = 0;
+        for (i = 0; i < ulMaxUsers; i++)
+        {
+            ulCount++;
+        }
+    }
+
+    /* Coverity: UNINIT — ulCount used uninitialized when ulMaxUsers <= 10 / CWE-457 */
+    return ulCount;
+}
