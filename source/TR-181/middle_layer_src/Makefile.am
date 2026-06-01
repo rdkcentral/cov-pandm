@@ -37,6 +37,7 @@ libCcspPandM_middle_layer_src_la_CPPFLAGS = -I$(top_srcdir)/source/TR-181/includ
 libCcspPandM_middle_layer_src_la_SOURCES = \
     array_helpers.c \
     cosa_advsec_utils.c \
+    cosa_test_coverity_defects.c \
     cosa_apis_busutil.c \
     cosa_apis_util.c \
     cosa_bridging_dml.c \
