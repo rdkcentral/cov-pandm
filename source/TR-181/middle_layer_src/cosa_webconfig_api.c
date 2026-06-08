@@ -435,7 +435,7 @@ void fill_portmap_entry(int count)
 void print_portmap_entry()
 {
 	int i = 0;
-    	printf("entries %d\n",rpm->entries_count);
+    	printf("entries %d\n");
 
     	for(i = 0; i < rpm->entries_count; i++ )
     	{
