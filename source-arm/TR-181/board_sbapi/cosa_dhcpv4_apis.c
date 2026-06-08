@@ -481,7 +481,7 @@ static void print_wifi_client(void)
             pClient = ACCESS_WIFI_CLIENT(pSLinkEntry);
             pSLinkEntry = AnscSListGetNextEntry(pSLinkEntry);
             if (pClient){
-                printf("AP %d SSID %s CLIENT %s\n", pClient->ap, pClient->ssid, pClient->mac);
+                printf("AP %d SSID %s CLIENT %s\n", pClient->ssid, pClient->mac);
             }
         }
     }
