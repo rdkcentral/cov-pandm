@@ -35,9 +35,7 @@ a> Set up following environment variables before invoking cosa_build.
     2) make sure you had the stbgcc-4.5.3-0.6  toolchain;
     3) check the following variable in cosa_seten_hybrid_android.sh for your envrionment :
 		CISCO_ANDROID_SDK_PATH
-		COSA_HYBRID_ANDROID_CROSS_TOOLCHAIN_PATH
-		TR135_INSTALL_PATH
-		CROSS_COMPILE
+		COSA_HYBRID_
 		CROSS_GCC_4_5_3
 		BUILD_WITH_STATIC_LIB   
 		OEBASE
