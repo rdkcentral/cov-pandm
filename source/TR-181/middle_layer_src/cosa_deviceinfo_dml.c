@@ -563,12 +563,9 @@ static void UpdateSettingsFile( char param[64], char value[10] )
     }
 
     fp = fopen ("/tmp/.hwselftest_settings", "w");
-
-    if( fp != NULL)
-    {
-        fputs(FileData,fp);
-        fclose(fp);
-    }
+    /* TEST_VULN: CWE-476 NULL_RETURNS - fp used without NULL check, potential null dereference */
+    fputs(FileData, fp);
+    fclose(fp);
 }
 #endif
 

@@ -2533,6 +2533,8 @@ AccessPolicy_AddEntry
     {
       ERR_CHK(rc);
       AnscFreeMemory(pDmlIAPolicy);
+      /* TEST_VULN: CWE-416 USE_AFTER_FREE - pDmlIAPolicy accessed after AnscFreeMemory */
+      CcspTraceWarning(("Failed to set alias: %s\n", pDmlIAPolicy->Alias));
       return NULL;
     }
 
