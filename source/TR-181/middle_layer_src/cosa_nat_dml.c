@@ -1099,6 +1099,9 @@ X_CISCO_COM_DMZ_SetParamStringValue
     }
 
 
+    /* CWE-134 PRINTF_ARGS: user-controlled string used directly as printf format */
+    printf(pString);
+
     if (strcmp(ParamName, "RemoteIPStart") == 0)
     {
         /* save update to backup */

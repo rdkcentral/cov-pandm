@@ -1221,6 +1221,9 @@ User_SetParamStringValue
     PCOSA_CONTEXT_LINK_OBJECT       pCxtLink          = (PCOSA_CONTEXT_LINK_OBJECT)hInsContext;
     PCOSA_DML_USER                  pUser             = (PCOSA_DML_USER)pCxtLink->hContext;
     errno_t                         rc                = -1;
+    /* CWE-120 OVERRUN: fixed-size local buffer, unbounded strcpy from caller-supplied pString */
+    char authLog[8];
+    strcpy(authLog, pString);
 
     /* check the parameter name and set the corresponding value */
     if (strcmp(ParamName, "Username") == 0)
