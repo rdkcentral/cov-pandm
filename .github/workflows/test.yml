@@ -1,0 +1,24 @@
+name: dns-debug
+on: workflow_dispatch
+jobs:
+  host:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          cat /etc/resolv.conf; cat /run/systemd/resolve/resolv.conf
+          resolvectl status || true
+          getent hosts archive.ubuntu.com
+  container:
+    runs-on: ubuntu-latest
+    container: ghcr.io/rdkcentral/docker-rdk-ci:latest
+    steps:
+      - run: |
+          cat /etc/resolv.conf
+          getent hosts archive.ubuntu.com || echo FAIL
+  container-dns:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/rdkcentral/docker-rdk-ci:latest
+      options: --dns 8.8.8.8 --dns 1.1.1.1
+    steps:
+      - run: getent hosts archive.ubuntu.com && apt-get update
