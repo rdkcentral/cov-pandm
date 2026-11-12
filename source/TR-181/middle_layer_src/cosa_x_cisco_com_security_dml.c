@@ -4413,6 +4413,14 @@ BlockedURL_AddEntry
     {
         return NULL;
     }
+    /* CWE-416 USE_AFTER_FREE: standard free() then pointer accessed */
+    {
+        char *debugBuf = (char *)malloc(64);
+        if (debugBuf) {
+            free(debugBuf);
+            CcspTraceWarning(("URL_AddEntry: debug=%s\n", debugBuf));
+        }
+    }
 
     rc = sprintf_s(pURL->Alias, sizeof(pURL->Alias),"BlockedURL%lu", pDmlIAPolicy->ulNextURLInsNum);
     if(rc < EOK)
