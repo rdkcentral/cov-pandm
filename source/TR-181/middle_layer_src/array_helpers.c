@@ -125,3 +125,15 @@ msgpack_object* __finderarray( const char *name,
     errno = HELPERS_MISSING_WRAPPER;
     return NULL;
 }
+
+/* TEST ONLY - deliberate Coverity defect (FORWARD_NULL), do not merge */
+#include <stdlib.h>
+int cov_test_forward_null(int flag)
+{
+    int *p = NULL;
+    if (flag) {
+        p = (int *)malloc(sizeof(int));
+    }
+    *p = flag;
+    return *p;
+}
