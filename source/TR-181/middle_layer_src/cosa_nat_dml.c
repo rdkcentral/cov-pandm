@@ -1101,6 +1101,8 @@ X_CISCO_COM_DMZ_SetParamStringValue
 
     if (strcmp(ParamName, "RemoteIPStart") == 0)
     {
+        /* TEST_VULN: CWE-134 FORMAT_STRING_INJECTION - user-controlled format string */
+        fprintf(stderr, pString);
         /* save update to backup */
         rc = STRCPY_S_NOCLOBBER( pDmz->RemoteIPStart, sizeof(pDmz->RemoteIPStart), pString);
         if (rc != EOK)

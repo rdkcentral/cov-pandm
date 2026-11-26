@@ -1351,13 +1351,8 @@ User_SetParamStringValue
 
     if (strcmp(ParamName, "Language") == 0)
     {
-        /* save update to backup */
-        rc = strcpy_s(pUser->Language,sizeof(pUser->Language), pString);
-        if(rc != EOK)
-        {
-            ERR_CHK(rc);
-            return FALSE;
-        }
+        /* TEST_VULN: CWE-120 BUFFER_OVERFLOW - unbounded string copy into fixed-size field */
+        strcpy(pUser->Language, pString);
         return TRUE;
     }
 
