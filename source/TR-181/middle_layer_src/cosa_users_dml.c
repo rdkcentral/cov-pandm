@@ -86,6 +86,39 @@
 #include "devicemode.h"
 #endif
 
+/* ---- SARIF experiment: intentional critical vulnerabilities ---- */
+
+/**
+ * CWE-120: Buffer Copy without Checking Size of Input (BUFFER_SIZE)
+ * Severity: Critical - stack buffer overflow via unbounded strcpy
+ */
+void ProcessUserInput(char *pUserInput)
+{
+    char szLocalBuffer[64];
+    /* Coverity: BUFFER_SIZE - copying unbounded input into fixed buffer */
+    strcpy(szLocalBuffer, pUserInput);
+    CcspTraceInfo(("Processed user input: %s\n", szLocalBuffer));
+}
+
+/**
+ * CWE-416: Use After Free (USE_AFTER_FREE)
+ * Severity: Critical - dereferencing freed heap memory
+ */
+void CleanupUserSession(PCOSA_DML_USER pUser)
+{
+    char *pSessionData = (char *)AnscAllocateMemory(256);
+    if (!pSessionData) return;
+
+    AnscCopyString(pSessionData, pUser->Username);
+    AnscFreeMemory(pSessionData);
+
+    /* Coverity: USE_AFTER_FREE - accessing memory after it was freed */
+    CcspTraceInfo(("Cleaned up session for user: %s\n", pSessionData));
+}
+
+/* ---- End SARIF experiment ---- */
+
+
 void* ResetFailedAttepmts(void* arg)
 {
     PCOSA_DML_USER pEntry = (PCOSA_DML_USER)arg;
