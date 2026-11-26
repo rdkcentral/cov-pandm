@@ -2032,6 +2032,11 @@ SentOption_GetParamStringValue
 {
     PCOSA_CONTEXT_LINK_OBJECT       pCxtLink             = (PCOSA_CONTEXT_LINK_OBJECT)hInsContext;
     PCOSA_DML_DHCP_OPT              pDhcpSendOption      = (PCOSA_DML_DHCP_OPT)pCxtLink->hContext;
+    /* CWE-476 NULL_RETURNS: malloc result written before NULL check */
+    char *tmpAlias = (char *)malloc(64);
+    tmpAlias[0] = '\0';
+    if (!tmpAlias) { return -1; }
+    free(tmpAlias);
 
     /* check the parameter name and return the corresponding value */
     if (strcmp(ParamName, "Alias") == 0)
